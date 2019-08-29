@@ -1,58 +1,58 @@
 #define FORWARD_SWITCH 2
 #define BACKWARD_SWITCH 3
-#define IDLE_MODE 4
-#define REBOOT 5
+#define OK 4
+#define CANCEL 5
 #define MANUAL_BUTTON 6
 #define RELAY_PIN 7
-#define L_X 20
-#define L_Y 4
+#define DELAY 4
 
-byte one_column[8] = {  B10000,  B10000,  B10000,  B10000,  B10000,  B10000,  B10000,  B10000,};
-byte two_column[8] = {  B11000,  B11000,  B11000,  B11000,  B11000,  B11000,  B11000,  B11000,};
-byte three_column[8] = {  B11100,  B11100,  B11100,  B11100,  B11100,  B11100,  B11100,  B11100,};
-byte four_column[8] = {  B11110,  B11110,  B11110,  B11110,  B11110,  B11110,  B11110,  B11110,};
-byte five_column[8] = {  B11111,  B11111,  B11111,  B11111,  B11111,  B11111,  B11111,  B11111,};
-bool configurationFlag = false;
+#include <iarduino_RTC.h>
+#include <LiquidCrystal_I2C.h>
 
 #include <Wire.h>
-#include <LiquidCrystal_I2C.h>
-#include <iarduino_RTC.h>
+#include <SPI.h>
 
-LiquidCrystal_I2C lcd(0x27, 20, 4);
 iarduino_RTC time(RTC_DS3231);
+LiquidCrystal_I2C lcd(0x27, 20, 4);
+
+int state = 0;
+
+byte selected_mode = 0;
+int8_t viewed_mode = 0;
+
+byte default_delay = 4;
+long last_seconds = 0;
 
 void setup() {
-  Serial.begin(9600);                             // Initialisation
-  lcd.init();                                     // Module
-  time.begin();                                   // Serial, LCD, RTC
-  Serial.setTimeout(100);                         // установка таймаута для readString (мс) (по умолчанию слишком длинный)
+  Serial.begin(9600);
+  time.begin();
+  lcd.init();
 
-  pinMode(FORWARD_SWITCH, INPUT_PULLUP);          // Init
-  pinMode(BACKWARD_SWITCH, INPUT_PULLUP);         // All
-  pinMode(IDLE_MODE, INPUT_PULLUP);               // Button
-  pinMode(REBOOT, INPUT_PULLUP);                  // Pins
-  pinMode(MANUAL_BUTTON, INPUT_PULLUP);           // Work
-  pinMode(RELAY_PIN, OUTPUT);                     // Mode
+  lcd.backlight();
+  lcd.setCursor(0, 0);
+  lcd.print("Load...");
+  lcd.setCursor(0, 1);
+  lcd.print("Startup whith 40min mode");
+  DETECT_LESSON_COUNT();
+  LCD_BACKLIGHT_ON();
+  delay(300);
 
-  if (digitalRead(FORWARD_SWITCH) == 0 && digitalRead(BACKWARD_SWITCH) == 0) {
-    lcd.backlight();
-    lcd.setCursor(0, 0);
-    lcd.print("Configuration mode :");
-    lcd.setCursor(5, 1);
-    lcd.print("Enable");
-    delay(250);
-    configurationFlag = true;
-  } else {
-    lcd.backlight();                                // Backlight On
-    lcd_startup();                                  // Show startup message
-    lcd_progres_bar(20, 5, 5, 3);                   // Draw progress bar
-  }
+  pinMode(FORWARD_SWITCH, INPUT_PULLUP);
+  pinMode(BACKWARD_SWITCH, INPUT_PULLUP);
+  pinMode(OK, INPUT_PULLUP);
+  pinMode(CANCEL, INPUT_PULLUP);
+  pinMode(MANUAL_BUTTON, INPUT_PULLUP);
+  pinMode(RELAY_PIN, OUTPUT);
+
+  lcd.clear();
 }
 
 void loop() {
-  if (configurationFlag == true) {
-    serialTick();
-  } else {
-    time.gettime();
+  time.gettime();
+  TICK();
+  BUTTONS_TICK();
+  LCD_TICK();    
+  if(TIME_CONVERTER(time.Hours, time.minutes, time.seconds) == 0){
+    CHECK();
   }
 }
