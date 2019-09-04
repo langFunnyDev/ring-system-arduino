@@ -51,8 +51,11 @@ void loop() {
   time.gettime();
   TICK();
   BUTTONS_TICK();
-  LCD_TICK();    
-  if(TIME_CONVERTER(time.Hours, time.minutes, time.seconds) == 0){
+  LCD_TICK();
+  if (TIME_CONVERTER(time.Hours, time.minutes, time.seconds) == 0) {
     CHECK();
+  }
+  if (state >= 24) {
+    state = 0;
   }
 }

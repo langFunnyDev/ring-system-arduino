@@ -2,10 +2,10 @@ void DETECT_LESSON_COUNT() {
   long realtime = TIME_CONVERTER(time.Hours, time.minutes, time.seconds);
   long temptime;
   if (selected_mode == 0) {
-    for (byte i = 23; i >= 0; i--) {
+    for (int i = 23; i >= 0; i--) {
       temptime = TIME_CONVERTER(min40_shedule[i].hours, min40_shedule[i].minutes, min40_shedule[i].seconds);
       if (temptime < realtime) {
-        state = i + 1;
+        state = i;
         if (state >= 24) {
           state = 0;
         }
@@ -14,15 +14,10 @@ void DETECT_LESSON_COUNT() {
     }
   }
   if (selected_mode == 1) {
-    for (byte i = 23; i >= 0; i--) {
+    for (int i = 23; i >= 0; i--) {
       temptime = TIME_CONVERTER(min30_shedule[i].hours, min30_shedule[i].minutes, min30_shedule[i].seconds);
       if (temptime < realtime) {
-        state = i + 1;
-        Serial.print(state);
-        Serial.print(" ");
-        Serial.print(realtime);
-        Serial.print(" ");
-        Serial.print(temptime);
+        state = i;        
         if (state >= 24) {
           state = 0;
         }

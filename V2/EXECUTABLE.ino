@@ -2,19 +2,15 @@ void TICK() {
   switch (selected_mode) {
     case 0:
       if (time.Hours == min40_shedule[state].hours && time.minutes == min40_shedule[state].minutes && time.seconds == min40_shedule[state].seconds) {
-        digitalWrite(RELAY_PIN, HIGH);
-      } else if (time.Hours == min40_shedule[state].hours && time.minutes == min40_shedule[state].minutes && time.seconds == min40_shedule[state].seconds + DELAY) {
-        digitalWrite(RELAY_PIN, LOW);
+        RELAY_ON_OFF();
         state++;
-      }
+      } 
       break;
     case 1:
       if (time.Hours == min30_shedule[state].hours && time.minutes == min30_shedule[state].minutes && time.seconds == min30_shedule[state].seconds) {
-        digitalWrite(RELAY_PIN, HIGH);
-      } else if (time.Hours == min30_shedule[state].hours && time.minutes == min30_shedule[state].minutes && time.seconds == min30_shedule[state].seconds + DELAY) {
-        digitalWrite(RELAY_PIN, LOW);
+        RELAY_ON_OFF();
         state++;
-      }
+      } 
       break;
     case 2:
       RELAY_ON_OFF();

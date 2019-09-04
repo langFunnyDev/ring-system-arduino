@@ -82,7 +82,7 @@ void LCD_MODE_PRINT(int y) {
 void LCD_SHEDULE_STATE(int y) {
   lcd.setCursor(0, y);
   lcd.print("In time: ");
-  if (min40_shedule[state].is_break) {
+  if (!min40_shedule[state].is_break) {
     lcd.print("Break");
   } else {
     lcd.print("Lesson");
