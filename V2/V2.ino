@@ -20,7 +20,7 @@ int state = 0;
 byte selected_mode = 0;
 int8_t viewed_mode = 0;
 
-byte default_delay = 4;
+byte default_delay = 5;
 long last_seconds = 0;
 
 void setup() {
