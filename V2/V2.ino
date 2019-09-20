@@ -4,7 +4,7 @@
 #define CANCEL 5
 #define MANUAL_BUTTON 6
 #define RELAY_PIN 7
-#define DELAY 4
+#define DELAY 6
 
 #include <iarduino_RTC.h>
 #include <LiquidCrystal_I2C.h>
@@ -17,10 +17,10 @@ LiquidCrystal_I2C lcd(0x27, 20, 4);
 
 int state = 0;
 
-byte selected_mode = 0;
+int8_t selected_mode = 0;
 int8_t viewed_mode = 0;
 
-byte default_delay = 5;
+byte default_delay = 8;
 long last_seconds = 0;
 
 void setup() {
@@ -52,7 +52,8 @@ void loop() {
   TICK();
   BUTTONS_TICK();
   LCD_TICK();
-  if (TIME_CONVERTER(time.Hours, time.minutes, time.seconds) == 0) {
+  SERIAL_TICK();
+  if (time.minutes == 0) {
     CHECK();
   }
   if (state >= 24) {

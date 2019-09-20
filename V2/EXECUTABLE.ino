@@ -53,4 +53,5 @@ void CHECK(){
     selected_mode = 0;
     viewed_mode = 0;
   }
+  last_seconds = 0;
 }
