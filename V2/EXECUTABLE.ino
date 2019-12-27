@@ -21,7 +21,7 @@ void TICK() {
       break;
     case 3:
       digitalWrite(RELAY_PIN, HIGH);
-      delay(60000);
+      delay(600000);
       selected_mode = 4;
       viewed_mode = 4;
       break;
@@ -43,15 +43,18 @@ void CHECK(){
     selected_mode = 4;
     viewed_mode = 4;
   } else {
-    selected_mode = 0;
-    viewed_mode = 0;
+    if(selected_mode == 4){
+      selected_mode = 0;
+      viewed_mode = 0; 
+    }
   }
   if (time.month == 6 || time.month == 7 || time.month == 8) {
     selected_mode = 4;
     viewed_mode = 4;
   } else {
-    selected_mode = 0;
-    viewed_mode = 0;
+    if(selected_mode == 4){
+      selected_mode = 0;
+      viewed_mode = 0; 
+    }
   }
-  last_seconds = 0;
 }

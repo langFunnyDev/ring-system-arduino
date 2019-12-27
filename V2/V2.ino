@@ -53,10 +53,8 @@ void loop() {
   BUTTONS_TICK();
   LCD_TICK();
   SERIAL_TICK();
-  if (time.minutes == 0) {
-    CHECK();
-  }
-  if (state >= 24) {
+  CHECK();
+  if (state >= 20) {
     state = 0;
   }
 }

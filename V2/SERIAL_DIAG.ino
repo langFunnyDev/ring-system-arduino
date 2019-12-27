@@ -9,14 +9,6 @@ String setWeekday = "weekday";
 int value = 0;
 
 void SERIAL_TICK() {
-  Serial.println("state: ");
-  Serial.print(state);
-  Serial.println("selected_mode: ");
-  Serial.print(selected_mode);
-  Serial.println("viewed_mode: ");
-  Serial.print(viewed_mode);
-  Serial.println("time_all_diag: ");
-  Serial.print(time.gettime("d-m-Y, H:i:s, D"));
   if (Serial.available() > 0) {
     String buf = Serial.readString();
     if (buf.startsWith(setSeconds)) {
