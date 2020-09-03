@@ -54,7 +54,7 @@ void loop() {
   LCD_TICK();
   SERIAL_TICK();
   CHECK();
-  if (state >= 20) {
+  if (state >= 24) {
     state = 0;
   }
 }

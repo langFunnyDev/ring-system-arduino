@@ -4,7 +4,7 @@ typedef struct  {
 } mode;
 
 mode modes[5] {
-  {1, "40 minutes"},
+  {1, "35 minutes"},
   {2, "30 minutes"},
   {3, "Attention all"},
   {4, "Fire alarm"},
